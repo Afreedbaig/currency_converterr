@@ -1,0 +1,277 @@
+import { useEffect, useState } from "react";
+import "./App.css";
+import Input from "./Input.jsx";
+
+function App() {
+    useEffect(() => {
+        const fetchRates = async () => {
+            try {
+                const res = await fetch(
+                    "https://api.exchangerate-api.com/v4/latest/usd",
+                );
+
+                if (!res.ok) {
+                    throw new Error("Failed to fetch exchange rates");
+                }
+
+                const data = await res.json();
+                data.date = Date.now();
+
+                localStorage.setItem("s", JSON.stringify(data));
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        const saved = localStorage.getItem("s");
+        const a = saved ? JSON.parse(saved) : 0;
+        const isExpired =
+            a == 0 || Date.now() - JSON.parse(saved).date > 24 * 60 * 60 * 1000;
+        if (isExpired) {
+            fetchRates();
+        }
+    }, []);
+    async function getlatesrates() {
+        if (!(Date.now() - rates.date < 24 * 60 * 60 * 1000)) {
+            try {
+                const res = await fetch(
+                    "https://api.exchangerate-api.com/v4/latest/usd",
+                );
+                const deta = await res.json();
+                deta.date = Date.now();
+                setrates(deta);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }
+    const [click, setclick] = useState("none");
+
+    // let data = {
+    //     date: Date.now(),
+    //     time_last_updated: 1792627201,
+    //     rates: {
+    //         USD: 1,
+    //         AED: 3.67,
+    //         AFN: 64.95,
+    //         ALL: 80.83,
+    //         AMD: 361.58,
+    //         ANG: 1.79,
+    //         AOA: 929.07,
+    //         ARS: 1526.67,
+    //         AUD: 1.42,
+    //         AWG: 1.79,
+    //         AZN: 1.7,
+    //         BAM: 1.74,
+    //         BBD: 2,
+    //         BDT: 123.71,
+    //         BGN: 1.74,
+    //         BHD: 0.376,
+    //         BIF: 2998.88,
+    //         BMD: 1,
+    //         BND: 1.28,
+    //         BOB: 11.73,
+    //         BRL: 5.02,
+    //         BSD: 1,
+    //         BTN: 94.59,
+    //         BWP: 13.93,
+    //         BYN: 2.97,
+    //         BZD: 2,
+    //         CAD: 1.4,
+    //         CDF: 2310.49,
+    //         CHF: 0.825,
+    //         CLF: 0.0247,
+    //         CLP: 974.77,
+    //         CNH: 6.67,
+    //         CNY: 6.69,
+    //         COP: 3173.54,
+    //         CRC: 455.58,
+    //         CUP: 24,
+    //         CVE: 98.17,
+    //         CZK: 21.61,
+    //         DJF: 177.72,
+    //         DKK: 6.66,
+    //         DOP: 61.41,
+    //         DZD: 134.64,
+    //         EGP: 54.39,
+    //         ERN: 15,
+    //         ETB: 162.55,
+    //         EUR: 0.89,
+    //         FJD: 2.25,
+    //         FKP: 0.747,
+    //         FOK: 6.66,
+    //         GBP: 0.747,
+    //         GEL: 2.6,
+    //         GGP: 0.747,
+    //         GHS: 11.69,
+    //         GIP: 0.747,
+    //         GMD: 74.64,
+    //         GNF: 8845.16,
+    //         GTQ: 7.65,
+    //         GYD: 209.36,
+    //         HKD: 7.85,
+    //         HNL: 26.86,
+    //         HRK: 6.71,
+    //         HTG: 131,
+    //         HUF: 325.1,
+    //         IDR: 18030.16,
+    //         ILS: 3.09,
+    //         IMP: 0.747,
+    //         INR: 94.59,
+    //         IQD: 1517.53,
+    //         IRR: 1773255.13,
+    //         ISK: 121.38,
+    //         JEP: 0.747,
+    //         JMD: 158.63,
+    //         JOD: 0.709,
+    //         JPY: 158.1,
+    //         KES: 129.87,
+    //         KGS: 87.53,
+    //         KHR: 4063.92,
+    //         KID: 1.42,
+    //         KMF: 438,
+    //         KRW: 1326.14,
+    //         KWD: 0.31,
+    //         KYD: 0.833,
+    //         KZT: 448.59,
+    //         LAK: 22322.01,
+    //         LBP: 89500,
+    //         LKR: 331.71,
+    //         LRD: 170.61,
+    //         LSL: 16.37,
+    //         LYD: 6.42,
+    //         MAD: 9.79,
+    //         MDL: 17.96,
+    //         MGA: 4568.26,
+    //         MKD: 54.98,
+    //         MMK: 2099.99,
+    //         MNT: 3588.63,
+    //         MOP: 8.08,
+    //         MRU: 40.15,
+    //         MUR: 47.39,
+    //         MVR: 15.46,
+    //         MWK: 1740.26,
+    //         MXN: 18.63,
+    //         MYR: 4.08,
+    //         MZN: 63.72,
+    //         NAD: 16.37,
+    //         NGN: 1334.42,
+    //         NIO: 36.82,
+    //         NOK: 9.37,
+    //         NPR: 151.34,
+    //         NZD: 1.76,
+    //         OMR: 0.384,
+    //         PAB: 1,
+    //         PEN: 3.43,
+    //         PGK: 4.43,
+    //         PHP: 63.39,
+    //         PKR: 277,
+    //         PLN: 3.88,
+    //         PYG: 5754.34,
+    //         QAR: 3.64,
+    //         RON: 4.75,
+    //         RSD: 104.64,
+    //         RUB: 82,
+    //         RWF: 1477.71,
+    //         SAR: 3.75,
+    //         SBD: 7.97,
+    //         SCR: 14.46,
+    //         SDG: 544.41,
+    //         SEK: 9.89,
+    //         SGD: 1.28,
+    //         SHP: 0.747,
+    //         SLE: 22.97,
+    //         SLL: 22971.44,
+    //         SOS: 571.85,
+    //         SRD: 37.66,
+    //         SSP: 5749.62,
+    //         STN: 21.81,
+    //         SYP: 121.88,
+    //         SZL: 16.37,
+    //         THB: 33.59,
+    //         TJS: 9.22,
+    //         TMT: 3.5,
+    //         TND: 3,
+    //         TOP: 2.37,
+    //         TRY: 49.64,
+    //         TTD: 6.78,
+    //         TVD: 1.42,
+    //         TWD: 32.41,
+    //         TZS: 2647.55,
+    //         UAH: 45.03,
+    //         UGX: 4100.68,
+    //         UYU: 40.18,
+    //         UZS: 11976.94,
+    //         VES: 884.75,
+    //         VND: 25846.7,
+    //         VUV: 118.43,
+    //         WST: 2.74,
+    //         XAF: 584,
+    //         XCD: 2.7,
+    //         XCG: 1.79,
+    //         XDR: 0.738,
+    //         XOF: 584,
+    //         XPF: 106.24,
+    //         YER: 236.22,
+    //         ZAR: 16.37,
+    //         ZMW: 20.09,
+    //         ZWG: 26.6,
+    //         ZWL: 26.6,
+    //     },
+    // };
+    const [rates, setrates] = useState(JSON.parse(localStorage.getItem("s")));
+    const [amt, setamt] = useState(1);
+    const [From, Setfrom] = useState("USD");
+    const [To, Setto] = useState("USD");
+
+    const [result, setresult] = useState({ From: "", To: "", amt: "" });
+
+    return (
+        <div className="mainn">
+            <div className="boxinthemiddle">
+                <h2 className="title">Currency Converter</h2>
+                <div className="labelholder">
+                    <p>Amount</p>
+                </div>
+
+                <Input placeholder="hello" text="yeah" fun={setamt} val={amt} />
+                <div className="labelholder">
+                    <p>From</p>
+                </div>
+                <Input fun={Setfrom}></Input>
+                <div className="labelholder">
+                    <p>To</p>
+                </div>
+                <Input fun={Setto}></Input>
+                <button
+                    onClick={() => {
+                        getlatesrates();
+                        setclick("block");
+                        setamt(1);
+                        setresult({
+                            amt: amt,
+                            ans: (
+                                (rates.rates[To] / rates.rates[From]) *
+                                amt
+                            ).toFixed(2),
+                            From: From,
+                            To: To,
+                        });
+                    }}
+                >
+                    Convert
+                </button>
+                <p
+                    style={{
+                        color: "white",
+                        marginTop: "10px",
+                        display: click,
+                    }}
+                >
+                    {result.amt} {result.From} is {result.ans} {result.To}
+                </p>
+            </div>
+        </div>
+    );
+}
+
+export default App;

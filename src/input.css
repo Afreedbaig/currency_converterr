@@ -1,0 +1,26 @@
+:root {
+    --mainbackgoundcolor: #0e152a;
+    --box-backgroundcolor: #1f293a;
+    --inputbackgroundcolor: #324154;
+    --buttoncolor: #3580fa;
+}
+input {
+    width: 96%;
+    height: 2.5rem;
+    background-color: var(--inputbackgroundcolor);
+    border: 1px solid black;
+    padding: 0 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    color: white;
+}
+select {
+    border-radius: 10px;
+    margin-bottom: 20px;
+    width: 96%;
+    height: 2.5rem;
+    background-color: var(--inputbackgroundcolor);
+    padding: 0 10px;
+    color: white;
+    scrollbar-width: 1px;
+}
